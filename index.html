@@ -20,7 +20,6 @@
             background: #f5f5f5;
         }
         
-        /* 暗色主题 */
         body.dark {
             background: #1a1a1a;
         }
@@ -61,6 +60,11 @@
             color: #fff;
         }
         
+        body.dark canvas {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+        
         .game-container {
             display: flex;
             flex-direction: column;
@@ -70,7 +74,6 @@
             background: white;
         }
         
-        /* K线图区域 */
         .chart-area {
             flex: 1;
             min-height: 0;
@@ -108,7 +111,7 @@
             font-size: 24px;
             font-weight: 700;
             font-family: monospace;
-            color: #f5576c;
+            color: #ff6b6b;
         }
         
         .symbol-change {
@@ -163,12 +166,6 @@
             border: 1px solid #e0e0e0;
         }
         
-        body.dark canvas {
-            background: #1e1e1e;
-            border-color: #333;
-        }
-        
-        /* 指标区域 */
         .indicators-area {
             flex: 1.2;
             min-height: 0;
@@ -214,12 +211,6 @@
             border: 1px solid #e0e0e0;
         }
         
-        body.dark .indicator-canvas {
-            background: #1e1e1e;
-            border-color: #333;
-        }
-        
-        /* 控制面板 */
         .control-panel {
             flex-shrink: 0;
             padding: 12px;
@@ -242,7 +233,7 @@
         }
         
         .speed-value {
-            color: #f5576c;
+            color: #ff6b6b;
             font-weight: 600;
         }
         
@@ -259,7 +250,7 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: #f5576c;
+            background: #ff6b6b;
             cursor: pointer;
             border: none;
         }
@@ -418,13 +409,13 @@
     <div class="chart-area" id="chartArea">
         <div class="chart-header">
             <div class="symbol-info">
-                <div class="symbol">📊 K线训练营</div>
+                <div class="symbol">K线训练</div>
                 <div class="symbol-price" id="headerPrice">--</div>
                 <div class="symbol-change" id="headerChange">--</div>
             </div>
             <div class="chart-controls">
-                <button class="indicator-toggle" id="indicatorToggleBtn">📊 隐藏指标</button>
-                <button class="theme-switch" id="themeSwitch">🌙 暗色</button>
+                <button class="indicator-toggle" id="indicatorToggleBtn">隐藏</button>
+                <button class="theme-switch" id="themeSwitch">🌙</button>
                 <div class="speed-badge" id="speedBadge">⚡ 1.0x</div>
             </div>
         </div>
@@ -504,8 +495,8 @@
     // 配置参数
     const INITIAL_PRICE = 100;
     const INITIAL_CAPITAL = 200000;
-    const KLINE_COUNT = 120;
-    const VISIBLE_COUNT = 50;
+    const KLINE_COUNT = 150;  // 总K线数量
+    const VISIBLE_COUNT = 50;  // 可见K线数量
     
     let indicatorsVisible = true;
     
@@ -590,7 +581,7 @@
     }
     
     // 绘制MACD
-    function drawMACD(canvas, macdData, currentIdx) {
+    function drawMACD(canvas, macdData, startIdx, endIdx) {
         const rect = canvas.parentElement.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
         canvas.width = rect.width * dpr;
@@ -610,8 +601,6 @@
         ctx.fillStyle = isDark ? '#1e1e1e' : 'white';
         ctx.fillRect(0, 0, width, height);
         
-        const startIdx = Math.max(0, currentIdx - VISIBLE_COUNT + 1);
-        const endIdx = currentIdx;
         const visibleMacd = macdData.macdLine.slice(startIdx, endIdx + 1);
         const visibleSignal = macdData.signalLine.slice(startIdx, endIdx + 1);
         const visibleHist = macdData.histogram.slice(startIdx, endIdx + 1);
@@ -674,7 +663,7 @@
     }
     
     // 绘制KDJ
-    function drawKDJ(canvas, kdjData, currentIdx) {
+    function drawKDJ(canvas, kdjData, startIdx, endIdx) {
         const rect = canvas.parentElement.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
         canvas.width = rect.width * dpr;
@@ -694,8 +683,6 @@
         ctx.fillStyle = isDark ? '#1e1e1e' : 'white';
         ctx.fillRect(0, 0, width, height);
         
-        const startIdx = Math.max(0, currentIdx - VISIBLE_COUNT + 1);
-        const endIdx = currentIdx;
         const visibleK = kdjData.k.slice(startIdx, endIdx + 1);
         const visibleD = kdjData.d.slice(startIdx, endIdx + 1);
         const visibleJ = kdjData.j.slice(startIdx, endIdx + 1);
@@ -758,7 +745,7 @@
         ctx.setLineDash([]);
     }
     
-    // 绘制K线
+    // 绘制K线 - 从左向右滚动，固定可见数量
     function drawKLine() {
         const canvas = document.getElementById('kCanvas');
         const rect = canvas.parentElement.getBoundingClientRect();
@@ -780,17 +767,27 @@
         ctx.fillStyle = isDark ? '#1e1e1e' : 'white';
         ctx.fillRect(0, 0, width, height);
         
-        const startIdx = Math.max(0, currentIndex - VISIBLE_COUNT + 1);
-        const visibleData = klineData.slice(startIdx, currentIndex + 1);
+        // 计算可见范围：从 currentIndex - VISIBLE_COUNT + 1 到 currentIndex
+        let startIdx = currentIndex - VISIBLE_COUNT + 1;
+        if (startIdx < 0) startIdx = 0;
+        const endIdx = currentIndex;
+        const visibleData = klineData.slice(startIdx, endIdx + 1);
+        
         if (visibleData.length === 0) return;
         
-        let minPrice = Math.min(...visibleData.map(k => k.low));
-        let maxPrice = Math.max(...visibleData.map(k => k.high));
+        // 计算价格范围
+        let minPrice = Infinity, maxPrice = -Infinity;
+        visibleData.forEach(k => {
+            minPrice = Math.min(minPrice, k.low);
+            maxPrice = Math.max(maxPrice, k.high);
+        });
         const buffer = (maxPrice - minPrice) * 0.05;
         minPrice -= buffer;
         maxPrice += buffer;
-        const priceToY = (price) => padding.top + chartHeight * (1 - (price - minPrice) / (maxPrice - minPrice));
+        const priceRange = maxPrice - minPrice;
+        const priceToY = (price) => padding.top + chartHeight * (1 - (price - minPrice) / priceRange);
         
+        // 网格线
         ctx.strokeStyle = '#ddd';
         ctx.lineWidth = 0.5;
         for (let i = 0; i <= 4; i++) {
@@ -801,17 +798,22 @@
             ctx.stroke();
         }
         
+        // Y轴价格标签
         ctx.fillStyle = '#888';
         ctx.font = '9px monospace';
         for (let i = 0; i <= 4; i++) {
             const price = maxPrice - (maxPrice - minPrice) * (i / 4);
-            ctx.fillText(price.toFixed(1), 5, padding.top + (chartHeight / 4) * i + 4);
+            const y = padding.top + (chartHeight / 4) * i;
+            ctx.fillText(price.toFixed(1), 5, y + 4);
         }
         
-        const candleWidth = Math.max(3, Math.min(5, chartWidth / visibleData.length * 0.7));
-        const spacing = chartWidth / visibleData.length;
+        // 固定每个K线的宽度，不随数量变化
+        const candleWidth = Math.max(3, Math.min(5, chartWidth / VISIBLE_COUNT * 0.7));
+        const spacing = chartWidth / VISIBLE_COUNT;
         
+        // 绘制K线 - 位置固定，从左到右排列
         visibleData.forEach((k, idx) => {
+            // 计算位置：第idx根K线在可见区域中的位置
             const x = padding.left + idx * spacing;
             const openY = priceToY(k.open);
             const closeY = priceToY(k.close);
@@ -819,12 +821,14 @@
             const lowY = priceToY(k.low);
             const isUp = k.close >= k.open;
             
+            // 影线
             ctx.beginPath();
             ctx.moveTo(x, highY);
             ctx.lineTo(x, lowY);
             ctx.strokeStyle = isUp ? '#ff6b6b' : '#4ecdc4';
             ctx.stroke();
             
+            // 实体
             const rectY = isUp ? closeY : openY;
             const rectHeight = Math.abs(closeY - openY);
             if (rectHeight > 2) {
@@ -846,6 +850,7 @@
             }
         });
         
+        // 当前价格线
         const currentPrice = klineData[currentIndex].close;
         const currentY = priceToY(currentPrice);
         ctx.beginPath();
@@ -856,13 +861,25 @@
         ctx.stroke();
         ctx.fillStyle = '#ff6b6b';
         ctx.fillText(`${currentPrice.toFixed(2)}`, width - padding.right + 5, currentY - 3);
+        
+        // 显示当前K线位置标记
+        const currentX = padding.left + (visibleData.length - 1) * spacing;
+        ctx.fillStyle = '#ff6b6b';
+        ctx.beginPath();
+        ctx.arc(currentX, currentY, 3, 0, Math.PI * 2);
+        ctx.fill();
     }
     
     function drawIndicators() {
-        if (indicatorsVisible && macdData && kdjData) {
-            drawMACD(document.getElementById('macdCanvas'), macdData, currentIndex);
-            drawKDJ(document.getElementById('kdjCanvas'), kdjData, currentIndex);
-        }
+        if (!indicatorsVisible) return;
+        if (!macdData || !kdjData) return;
+        
+        let startIdx = currentIndex - VISIBLE_COUNT + 1;
+        if (startIdx < 0) startIdx = 0;
+        const endIdx = currentIndex;
+        
+        drawMACD(document.getElementById('macdCanvas'), macdData, startIdx, endIdx);
+        drawKDJ(document.getElementById('kdjCanvas'), kdjData, startIdx, endIdx);
     }
     
     // 游戏状态
@@ -956,7 +973,7 @@
     function advanceToNextKLine() {
         if (currentIndex >= klineData.length - 1) {
             if (isRunning) pauseGame();
-            showToast('通关完成！');
+            showToast('🎉 通关完成！');
             return;
         }
         currentIndex++;
@@ -965,7 +982,7 @@
         updateUI();
         if (currentIndex >= klineData.length - 1) {
             pauseGame();
-            showToast('训练完成！');
+            showToast('📊 训练完成！');
         }
     }
     
@@ -1006,7 +1023,7 @@
         drawIndicators();
         updateUI();
         if (isRunning) startGame();
-        showToast('重置完成');
+        showToast('🔄 重置完成');
     }
     
     function toggleTheme() {
