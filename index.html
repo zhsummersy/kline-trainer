@@ -12,147 +12,140 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 0;
             height: 100vh;
             overflow: hidden;
-            transition: background 0.3s ease;
+            background: #f5f5f5;
         }
         
-        body[data-theme="dark"] {
-            background: #0a0c12;
+        /* 暗色主题 */
+        body.dark {
+            background: #1a1a1a;
         }
         
-        body[data-theme="light"] {
-            background: #f5f7fa;
+        body.dark .game-container {
+            background: #252525;
+        }
+        
+        body.dark .chart-area,
+        body.dark .indicators-area,
+        body.dark .control-panel {
+            background: #252525;
+            border-color: #333;
+        }
+        
+        body.dark .stat-card,
+        body.dark .speed-section {
+            background: #2a2a2a;
+            border-color: #333;
+        }
+        
+        body.dark .stat-label,
+        body.dark .speed-label {
+            color: #aaa;
+        }
+        
+        body.dark .stat-value {
+            color: #fff;
+        }
+        
+        body.dark .btn-secondary {
+            background: #2a2a2a;
+            color: #ccc;
+            border: 1px solid #3a3a3a;
+        }
+        
+        body.dark .symbol {
+            color: #fff;
         }
         
         .game-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            background: inherit;
-            overflow: hidden;
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
         }
         
+        /* K线图区域 */
         .chart-area {
-            flex: 2;
+            flex: 1;
             min-height: 0;
-            padding: 8px 12px 4px 12px;
-            transition: background 0.3s ease;
+            padding: 12px;
             display: flex;
             flex-direction: column;
+            border-bottom: 1px solid #e0e0e0;
         }
         
-        body[data-theme="dark"] .chart-area {
-            background: #0b0e14;
-        }
-        
-        body[data-theme="light"] .chart-area {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e9f0;
+        .chart-area.expanded {
+            flex: 2.5;
         }
         
         .chart-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
-            padding: 0 4px;
+            margin-bottom: 8px;
             flex-shrink: 0;
         }
         
         .symbol-info {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: baseline;
-            flex-wrap: wrap;
         }
         
         .symbol {
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        body[data-theme="dark"] .symbol {
-            color: #fff;
-        }
-        
-        body[data-theme="light"] .symbol {
-            color: #1e2a3a;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
         }
         
         .symbol-price {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 24px;
+            font-weight: 700;
             font-family: monospace;
-        }
-        
-        body[data-theme="dark"] .symbol-price {
-            color: #ffaa44;
-        }
-        
-        body[data-theme="light"] .symbol-price {
-            color: #f5a623;
+            color: #f5576c;
         }
         
         .symbol-change {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-        
-        body[data-theme="dark"] .symbol-change {
-            background: #1e222d;
-        }
-        
-        body[data-theme="light"] .symbol-change {
-            background: #f0f2f5;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #f0f0f0;
         }
         
         .chart-controls {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
         }
         
+        .indicator-toggle,
         .theme-switch {
-            background: none;
-            border: none;
-            font-size: 18px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            font-size: 12px;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-radius: 20px;
-        }
-        
-        body[data-theme="dark"] .theme-switch {
-            background: #1e222d;
-        }
-        
-        body[data-theme="light"] .theme-switch {
-            background: #f0f2f5;
-        }
-        
-        .speed-badge {
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 10px;
             font-weight: 500;
         }
         
-        body[data-theme="dark"] .speed-badge {
-            background: #1e222d;
-            color: #6c7a8e;
+        .indicator-toggle:active,
+        .theme-switch:active {
+            background: #e0e0e0;
         }
         
-        body[data-theme="light"] .speed-badge {
-            background: #f0f2f5;
-            color: #5a687a;
+        .speed-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            background: #e8e8e8;
+            color: #666;
         }
         
         .canvas-wrapper {
@@ -165,40 +158,31 @@
             display: block;
             width: 100%;
             height: 100%;
-            background: inherit;
+            background: white;
             border-radius: 8px;
-            cursor: crosshair;
+            border: 1px solid #e0e0e0;
         }
         
-        body[data-theme="dark"] canvas {
-            background: #0b0e14;
+        body.dark canvas {
+            background: #1e1e1e;
+            border-color: #333;
         }
         
-        body[data-theme="light"] canvas {
-            background: #ffffff;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-        }
-        
+        /* 指标区域 */
         .indicators-area {
             flex: 1.2;
             min-height: 0;
-            padding: 4px 12px 8px 12px;
-            transition: background 0.3s ease;
+            padding: 8px 12px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
+            border-bottom: 1px solid #e0e0e0;
         }
         
-        body[data-theme="dark"] .indicators-area {
-            background: #0f1117;
-            border-top: 1px solid #1e222d;
-            border-bottom: 1px solid #1e222d;
-        }
-        
-        body[data-theme="light"] .indicators-area {
-            background: #f8f9fc;
-            border-top: 1px solid #e5e9f0;
-            border-bottom: 1px solid #e5e9f0;
+        .indicators-area.hidden {
+            flex: 0;
+            padding: 0;
+            display: none;
         }
         
         .indicator-item {
@@ -209,18 +193,10 @@
         }
         
         .indicator-title {
-            font-size: 9px;
-            font-weight: bold;
-            margin-bottom: 2px;
-            flex-shrink: 0;
-        }
-        
-        body[data-theme="dark"] .indicator-title {
-            color: #8a92a6;
-        }
-        
-        body[data-theme="light"] .indicator-title {
-            color: #5a687a;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #666;
         }
         
         .indicator-canvas-wrapper {
@@ -233,265 +209,189 @@
             display: block;
             width: 100%;
             height: 100%;
+            background: white;
             border-radius: 6px;
+            border: 1px solid #e0e0e0;
         }
         
-        body[data-theme="dark"] .indicator-canvas {
-            background: #0b0e14;
+        body.dark .indicator-canvas {
+            background: #1e1e1e;
+            border-color: #333;
         }
         
-        body[data-theme="light"] .indicator-canvas {
-            background: #ffffff;
-        }
-        
+        /* 控制面板 */
         .control-panel {
             flex-shrink: 0;
-            padding: 6px 10px 8px 10px;
-            transition: background 0.3s ease;
-        }
-        
-        body[data-theme="dark"] .control-panel {
-            background: #0f1117;
-        }
-        
-        body[data-theme="light"] .control-panel {
-            background: #ffffff;
-            border-top: 1px solid #e5e9f0;
+            padding: 12px;
         }
         
         .speed-section {
-            border-radius: 8px;
-            padding: 4px 8px;
-            margin-bottom: 6px;
-        }
-        
-        body[data-theme="dark"] .speed-section {
-            background: #0f1117;
-            border: 1px solid #1e222d;
-        }
-        
-        body[data-theme="light"] .speed-section {
-            background: #f8f9fc;
-            border: 1px solid #e5e9f0;
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
         }
         
         .speed-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 3px;
-            font-size: 9px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #666;
         }
         
-        body[data-theme="dark"] .speed-label {
-            color: #8a92a6;
-        }
-        
-        body[data-theme="light"] .speed-label {
-            color: #5a687a;
+        .speed-value {
+            color: #f5576c;
+            font-weight: 600;
         }
         
         input[type="range"] {
             width: 100%;
-            height: 3px;
+            height: 4px;
             border-radius: 2px;
             -webkit-appearance: none;
-            margin: 3px 0;
-        }
-        
-        body[data-theme="dark"] input[type="range"] {
-            background: #1e222d;
-        }
-        
-        body[data-theme="light"] input[type="range"] {
-            background: #e5e9f0;
-        }
-        
-        input[type="range"]:focus {
-            outline: none;
+            background: #ddd;
         }
         
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            background: #ffaa44;
+            background: #f5576c;
             cursor: pointer;
-        }
-        
-        .speed-value {
-            color: #ffaa44;
-            font-weight: bold;
+            border: none;
         }
         
         .trade-section {
             display: flex;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
         
         .btn {
             flex: 1;
-            padding: 6px 0;
+            padding: 10px 0;
             border: none;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
             font-family: inherit;
         }
         
         .btn-long {
-            background: linear-gradient(135deg, #ff4d4d, #e03a3a);
+            background: #ff6b6b;
             color: white;
-        }
-        
-        .btn-long:active {
-            transform: scale(0.97);
         }
         
         .btn-short {
-            background: linear-gradient(135deg, #4cff4c, #3ac83a);
-            color: #0a0c12;
-        }
-        
-        .btn-short:active {
-            transform: scale(0.97);
-        }
-        
-        .btn-close {
-            background: linear-gradient(135deg, #6c7a8e, #5a687a);
+            background: #4ecdc4;
             color: white;
         }
         
-        .btn-close:active {
-            transform: scale(0.97);
+        .btn-close {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn:active {
+            opacity: 0.8;
+            transform: scale(0.98);
         }
         
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin-bottom: 6px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         
         .stat-card {
-            border-radius: 8px;
-            padding: 4px 2px;
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 8px 4px;
             text-align: center;
         }
         
-        body[data-theme="dark"] .stat-card {
-            background: #0f1117;
-            border: 1px solid #1e222d;
-        }
-        
-        body[data-theme="light"] .stat-card {
-            background: #f8f9fc;
-            border: 1px solid #e5e9f0;
-        }
-        
         .stat-label {
-            font-size: 8px;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-        }
-        
-        body[data-theme="dark"] .stat-label {
-            color: #6c7a8e;
-        }
-        
-        body[data-theme="light"] .stat-label {
-            color: #8a92a6;
+            font-size: 10px;
+            margin-bottom: 4px;
+            color: #888;
         }
         
         .stat-value {
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
             font-family: monospace;
+            color: #333;
         }
         
         .profit-positive {
-            color: #ff4d4d;
+            color: #ff6b6b;
         }
         
         .profit-negative {
-            color: #4cff4c;
+            color: #4ecdc4;
         }
         
         .position-badge {
             display: inline-block;
-            padding: 2px 5px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
         }
         
         .position-long {
-            background: rgba(255,77,77,0.15);
-            color: #ff4d4d;
-            border: 1px solid rgba(255,77,77,0.3);
+            background: #ff6b6b20;
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b40;
         }
         
         .position-short {
-            background: rgba(76,255,76,0.15);
-            color: #4cff4c;
-            border: 1px solid rgba(76,255,76,0.3);
+            background: #4ecdc420;
+            color: #4ecdc4;
+            border: 1px solid #4ecdc440;
         }
         
-        body[data-theme="light"] .position-empty {
-            background: #f0f2f5;
-            color: #8a92a6;
-        }
-        
-        body[data-theme="dark"] .position-empty {
-            background: #1e222d;
-            color: #6c7a8e;
+        .position-empty {
+            background: #f0f0f0;
+            color: #999;
         }
         
         .action-buttons {
             display: flex;
-            gap: 5px;
+            gap: 8px;
         }
         
         .btn-secondary {
             flex: 1;
-            padding: 5px 0;
-            border-radius: 8px;
-            font-size: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 12px;
             cursor: pointer;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
             font-family: inherit;
-            border: none;
-            text-align: center;
-        }
-        
-        body[data-theme="dark"] .btn-secondary {
-            background: #1e222d;
-            border: 1px solid #2a2f3a;
-            color: #8a92a6;
-        }
-        
-        body[data-theme="light"] .btn-secondary {
-            background: #f0f2f5;
-            border: 1px solid #e5e9f0;
-            color: #5a687a;
         }
         
         .btn-secondary:active {
-            transform: scale(0.97);
+            background: #e0e0e0;
         }
         
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            backdrop-filter: blur(8px);
-            padding: 5px 12px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 20px;
             border-radius: 40px;
-            font-size: 10px;
-            font-weight: 500;
+            font-size: 12px;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.2s;
@@ -499,44 +399,32 @@
             white-space: nowrap;
         }
         
-        body[data-theme="dark"] .toast {
-            background: rgba(0,0,0,0.9);
-            color: #ffaa44;
-            border: 1px solid rgba(255,170,68,0.3);
-        }
-        
-        body[data-theme="light"] .toast {
-            background: rgba(255,255,255,0.95);
-            color: #f5a623;
-            border: 1px solid #e5e9f0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
         @media (max-width: 480px) {
+            .symbol-price {
+                font-size: 20px;
+            }
             .stat-value {
-                font-size: 11px;
+                font-size: 12px;
             }
             .btn {
-                padding: 5px 0;
-                font-size: 10px;
-            }
-            .symbol-price {
-                font-size: 16px;
+                padding: 8px 0;
+                font-size: 12px;
             }
         }
     </style>
 </head>
-<body data-theme="light">
+<body>
 <div class="game-container">
-    <div class="chart-area">
+    <div class="chart-area" id="chartArea">
         <div class="chart-header">
             <div class="symbol-info">
-                <div class="symbol">📊 K线训练</div>
+                <div class="symbol">📊 K线训练营</div>
                 <div class="symbol-price" id="headerPrice">--</div>
                 <div class="symbol-change" id="headerChange">--</div>
             </div>
             <div class="chart-controls">
-                <button class="theme-switch" id="themeSwitch" title="切换白天/夜晚模式">🌙</button>
+                <button class="indicator-toggle" id="indicatorToggleBtn">📊 隐藏指标</button>
+                <button class="theme-switch" id="themeSwitch">🌙 暗色</button>
                 <div class="speed-badge" id="speedBadge">⚡ 1.0x</div>
             </div>
         </div>
@@ -545,15 +433,15 @@
         </div>
     </div>
     
-    <div class="indicators-area">
+    <div class="indicators-area" id="indicatorsArea">
         <div class="indicator-item">
-            <div class="indicator-title">📊 MACD (12,26,9)</div>
+            <div class="indicator-title">MACD (12,26,9)</div>
             <div class="indicator-canvas-wrapper">
                 <canvas id="macdCanvas" class="indicator-canvas"></canvas>
             </div>
         </div>
         <div class="indicator-item">
-            <div class="indicator-title">📈 KDJ (9,3,3)</div>
+            <div class="indicator-title">KDJ (9,3,3)</div>
             <div class="indicator-canvas-wrapper">
                 <canvas id="kdjCanvas" class="indicator-canvas"></canvas>
             </div>
@@ -563,7 +451,7 @@
     <div class="control-panel">
         <div class="speed-section">
             <div class="speed-label">
-                <span>📈 K线更新速度</span>
+                <span>K线更新速度</span>
                 <span class="speed-value" id="speedValue">1.0x</span>
             </div>
             <input type="range" id="speedSlider" min="0.5" max="4" step="0.1" value="1">
@@ -613,28 +501,26 @@
 <div id="toast" class="toast"></div>
 
 <script>
-    // ========== 配置参数 ==========
+    // 配置参数
     const INITIAL_PRICE = 100;
     const INITIAL_CAPITAL = 200000;
     const KLINE_COUNT = 120;
     const VISIBLE_COUNT = 50;
     
-    // ========== 生成模拟K线数据 ==========
+    let indicatorsVisible = true;
+    
+    // 生成K线数据
     function generateKLineData() {
         const data = [];
         let price = INITIAL_PRICE;
         let trend = 0;
         
         for (let i = 0; i < KLINE_COUNT; i++) {
-            if (Math.random() < 0.02) {
-                trend = (Math.random() - 0.5) * 1.2;
-            }
-            
+            if (Math.random() < 0.02) trend = (Math.random() - 0.5) * 1.2;
             const volatility = 1.2 + Math.abs(trend) * 0.5;
             const change = (Math.random() - 0.5 + trend) * volatility;
             const open = price;
             const close = price + change;
-            
             const highLowSpread = Math.abs(change) + Math.random() * 1.5;
             const high = Math.max(open, close) + Math.random() * highLowSpread * 0.6;
             const low = Math.min(open, close) - Math.random() * highLowSpread * 0.4;
@@ -643,78 +529,53 @@
                 open: Math.round(open * 100) / 100,
                 close: Math.round(close * 100) / 100,
                 high: Math.round(high * 100) / 100,
-                low: Math.round(low * 100) / 100,
-                timestamp: i
+                low: Math.round(low * 100) / 100
             });
-            
             price = close;
         }
         return data;
     }
     
-    // ========== 正确计算EMA ==========
+    // EMA计算
     function calculateEMA(data, period) {
         const ema = new Array(data.length);
         const multiplier = 2 / (period + 1);
-        
         for (let i = 0; i < data.length; i++) {
-            if (i === 0) {
-                ema[i] = data[i];
-            } else {
-                ema[i] = (data[i] - ema[i-1]) * multiplier + ema[i-1];
-            }
+            if (i === 0) ema[i] = data[i];
+            else ema[i] = (data[i] - ema[i-1]) * multiplier + ema[i-1];
         }
         return ema;
     }
     
-    // ========== 正确计算MACD ==========
+    // MACD计算
     function calculateMACD(data) {
         const closes = data.map(k => k.close);
-        const fastPeriod = 12;
-        const slowPeriod = 26;
-        const signalPeriod = 9;
-        
-        const emaFast = calculateEMA(closes, fastPeriod);
-        const emaSlow = calculateEMA(closes, slowPeriod);
-        
-        const macdLine = new Array(closes.length);
-        for (let i = 0; i < closes.length; i++) {
-            macdLine[i] = emaFast[i] - emaSlow[i];
-        }
-        
-        const signalLine = calculateEMA(macdLine, signalPeriod);
-        
-        const histogram = new Array(closes.length);
-        for (let i = 0; i < closes.length; i++) {
-            histogram[i] = macdLine[i] - signalLine[i];
-        }
-        
+        const emaFast = calculateEMA(closes, 12);
+        const emaSlow = calculateEMA(closes, 26);
+        const macdLine = emaFast.map((v, i) => v - emaSlow[i]);
+        const signalLine = calculateEMA(macdLine, 9);
+        const histogram = macdLine.map((v, i) => v - signalLine[i]);
         return { macdLine, signalLine, histogram };
     }
     
-    // ========== 正确计算KDJ ==========
+    // KDJ计算
     function calculateKDJ(data) {
         const n = 9;
         const closes = data.map(k => k.close);
         const highs = data.map(k => k.high);
         const lows = data.map(k => k.low);
-        
         const kValues = new Array(closes.length).fill(50);
         const dValues = new Array(closes.length).fill(50);
         const jValues = new Array(closes.length).fill(50);
         
         for (let i = 0; i < closes.length; i++) {
             if (i >= n - 1) {
-                let highestHigh = -Infinity;
-                let lowestLow = Infinity;
-                
+                let highestHigh = -Infinity, lowestLow = Infinity;
                 for (let j = i - n + 1; j <= i; j++) {
                     highestHigh = Math.max(highestHigh, highs[j]);
                     lowestLow = Math.min(lowestLow, lows[j]);
                 }
-                
                 const rsv = (closes[i] - lowestLow) / (highestHigh - lowestLow) * 100;
-                
                 if (i === n - 1) {
                     kValues[i] = rsv;
                     dValues[i] = rsv;
@@ -722,62 +583,46 @@
                     kValues[i] = (2/3) * kValues[i-1] + (1/3) * rsv;
                     dValues[i] = (2/3) * dValues[i-1] + (1/3) * kValues[i];
                 }
-                
                 jValues[i] = 3 * kValues[i] - 2 * dValues[i];
             }
         }
-        
         return { k: kValues, d: dValues, j: jValues };
     }
     
-    // ========== 绘制MACD（修复柱状图） ==========
+    // 绘制MACD
     function drawMACD(canvas, macdData, currentIdx) {
         const rect = canvas.parentElement.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
         
         const ctx = canvas.getContext('2d');
-        const width = canvas.width;
-        const height = canvas.height;
-        const padding = { left: 35, right: 25, top: 8, bottom: 8 };
+        ctx.scale(dpr, dpr);
+        const width = rect.width, height = rect.height;
+        const padding = { left: 38, right: 28, top: 8, bottom: 8 };
         const chartWidth = width - padding.left - padding.right;
         const chartHeight = height - padding.top - padding.bottom;
+        if (chartWidth <= 0) return;
         
-        if (chartWidth <= 0 || chartHeight <= 0) return;
-        
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        ctx.fillStyle = isDark ? '#0b0e14' : '#ffffff';
+        const isDark = document.body.classList.contains('dark');
+        ctx.fillStyle = isDark ? '#1e1e1e' : 'white';
         ctx.fillRect(0, 0, width, height);
         
         const startIdx = Math.max(0, currentIdx - VISIBLE_COUNT + 1);
         const endIdx = currentIdx;
-        
         const visibleMacd = macdData.macdLine.slice(startIdx, endIdx + 1);
         const visibleSignal = macdData.signalLine.slice(startIdx, endIdx + 1);
         const visibleHist = macdData.histogram.slice(startIdx, endIdx + 1);
-        
         if (visibleMacd.length === 0) return;
         
-        // 计算Y轴范围（包含正负值）
-        let minVal = Infinity, maxVal = -Infinity;
-        [...visibleMacd, ...visibleSignal, ...visibleHist].forEach(v => {
-            minVal = Math.min(minVal, v);
-            maxVal = Math.max(maxVal, v);
-        });
-        
-        // 确保包含零轴
-        minVal = Math.min(minVal, 0);
-        maxVal = Math.max(maxVal, 0);
-        
+        let minVal = Math.min(...visibleMacd, ...visibleSignal, ...visibleHist, 0);
+        let maxVal = Math.max(...visibleMacd, ...visibleSignal, ...visibleHist, 0);
         const range = Math.max(Math.abs(maxVal), Math.abs(minVal));
-        const upperBound = range;
-        const lowerBound = -range;
-        const fullRange = upperBound - lowerBound;
+        const valueToY = (val) => padding.top + chartHeight * (1 - (val + range) / (range * 2));
         
-        const valueToY = (val) => padding.top + chartHeight * (1 - (val - lowerBound) / fullRange);
-        
-        // 网格线
-        ctx.strokeStyle = isDark ? '#1e222d' : '#e5e9f0';
+        ctx.strokeStyle = '#ddd';
         ctx.lineWidth = 0.5;
         for (let i = 0; i <= 4; i++) {
             const y = padding.top + (chartHeight / 4) * i;
@@ -790,22 +635,17 @@
         const spacing = chartWidth / visibleMacd.length;
         const zeroY = valueToY(0);
         
-        // 绘制柱状图 - 以零轴为基准，顶部水平
         for (let i = 0; i < visibleHist.length; i++) {
             const x = padding.left + i * spacing;
-            const histValue = visibleHist[i];
-            const histY = valueToY(histValue);
-            const barHeight = Math.abs(histY - zeroY);
-            const barY = histValue >= 0 ? zeroY : histY;
-            
-            ctx.fillStyle = histValue >= 0 ? '#ff4d4d' : '#4cff4c';
-            ctx.fillRect(x - 2, barY, 4, Math.max(1, barHeight));
+            const histY = valueToY(visibleHist[i]);
+            const barY = visibleHist[i] >= 0 ? zeroY : histY;
+            ctx.fillStyle = visibleHist[i] >= 0 ? '#ff6b6b' : '#4ecdc4';
+            ctx.fillRect(x - 2, barY, 4, Math.abs(histY - zeroY));
         }
         
-        // 绘制MACD线
         ctx.beginPath();
-        ctx.strokeStyle = '#ffaa44';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#ff6b6b';
+        ctx.lineWidth = 1;
         for (let i = 0; i < visibleMacd.length; i++) {
             const x = padding.left + i * spacing;
             const y = valueToY(visibleMacd[i]);
@@ -814,10 +654,8 @@
         }
         ctx.stroke();
         
-        // 绘制信号线
         ctx.beginPath();
-        ctx.strokeStyle = '#4c9aff';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#4ecdc4';
         for (let i = 0; i < visibleSignal.length; i++) {
             const x = padding.left + i * spacing;
             const y = valueToY(visibleSignal[i]);
@@ -826,66 +664,46 @@
         }
         ctx.stroke();
         
-        // 零轴
         ctx.beginPath();
         ctx.moveTo(padding.left, zeroY);
         ctx.lineTo(width - padding.right, zeroY);
-        ctx.strokeStyle = isDark ? '#2a2f3a' : '#d0d4e0';
+        ctx.strokeStyle = '#aaa';
         ctx.setLineDash([4, 4]);
         ctx.stroke();
         ctx.setLineDash([]);
-        
-        // Y轴标签
-        ctx.fillStyle = isDark ? '#6c7a8e' : '#8a92a6';
-        ctx.font = '8px monospace';
-        for (let i = 0; i <= 4; i++) {
-            const val = lowerBound + (fullRange / 4) * i;
-            const y = padding.top + (chartHeight / 4) * (4 - i);
-            ctx.fillText(val.toFixed(1), 3, y + 3);
-        }
     }
     
-    // ========== 绘制KDJ ==========
+    // 绘制KDJ
     function drawKDJ(canvas, kdjData, currentIdx) {
         const rect = canvas.parentElement.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
         
         const ctx = canvas.getContext('2d');
-        const width = canvas.width;
-        const height = canvas.height;
-        const padding = { left: 35, right: 25, top: 8, bottom: 8 };
+        ctx.scale(dpr, dpr);
+        const width = rect.width, height = rect.height;
+        const padding = { left: 38, right: 28, top: 8, bottom: 8 };
         const chartWidth = width - padding.left - padding.right;
         const chartHeight = height - padding.top - padding.bottom;
+        if (chartWidth <= 0) return;
         
-        if (chartWidth <= 0 || chartHeight <= 0) return;
-        
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        ctx.fillStyle = isDark ? '#0b0e14' : '#ffffff';
+        const isDark = document.body.classList.contains('dark');
+        ctx.fillStyle = isDark ? '#1e1e1e' : 'white';
         ctx.fillRect(0, 0, width, height);
         
         const startIdx = Math.max(0, currentIdx - VISIBLE_COUNT + 1);
         const endIdx = currentIdx;
-        
         const visibleK = kdjData.k.slice(startIdx, endIdx + 1);
         const visibleD = kdjData.d.slice(startIdx, endIdx + 1);
         const visibleJ = kdjData.j.slice(startIdx, endIdx + 1);
-        
         if (visibleK.length === 0) return;
         
-        let minVal = Infinity, maxVal = -Infinity;
-        [...visibleK, ...visibleD, ...visibleJ].forEach(v => {
-            minVal = Math.min(minVal, v);
-            maxVal = Math.max(maxVal, v);
-        });
-        minVal = Math.min(minVal, 0);
-        maxVal = Math.max(maxVal, 100);
+        const valueToY = (val) => padding.top + chartHeight * (1 - val / 100);
         
-        const valueRange = maxVal - minVal;
-        const valueToY = (val) => padding.top + chartHeight * (1 - (val - minVal) / valueRange);
-        
-        // 网格线
-        ctx.strokeStyle = isDark ? '#1e222d' : '#e5e9f0';
+        ctx.strokeStyle = '#ddd';
         ctx.lineWidth = 0.5;
         for (let i = 0; i <= 4; i++) {
             const y = padding.top + (chartHeight / 4) * i;
@@ -897,9 +715,8 @@
         
         const spacing = chartWidth / visibleK.length;
         
-        // 绘制K线
         ctx.beginPath();
-        ctx.strokeStyle = '#ff4d4d';
+        ctx.strokeStyle = '#ff6b6b';
         ctx.lineWidth = 1;
         for (let i = 0; i < visibleK.length; i++) {
             const x = padding.left + i * spacing;
@@ -909,10 +726,8 @@
         }
         ctx.stroke();
         
-        // 绘制D线
         ctx.beginPath();
-        ctx.strokeStyle = '#4c9aff';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#4ecdc4';
         for (let i = 0; i < visibleD.length; i++) {
             const x = padding.left + i * spacing;
             const y = valueToY(visibleD[i]);
@@ -921,10 +736,8 @@
         }
         ctx.stroke();
         
-        // 绘制J线
         ctx.beginPath();
-        ctx.strokeStyle = '#ffaa44';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#f5a623';
         for (let i = 0; i < visibleJ.length; i++) {
             const x = padding.left + i * spacing;
             const y = valueToY(visibleJ[i]);
@@ -933,186 +746,52 @@
         }
         ctx.stroke();
         
-        // 绘制20/50/80线
-        const y20 = valueToY(20);
-        const y50 = valueToY(50);
-        const y80 = valueToY(80);
-        
         ctx.setLineDash([4, 4]);
-        ctx.strokeStyle = isDark ? '#2a2f3a' : '#d0d4e0';
-        
-        ctx.beginPath();
-        ctx.moveTo(padding.left, y20);
-        ctx.lineTo(width - padding.right, y20);
-        ctx.stroke();
-        
-        ctx.beginPath();
-        ctx.moveTo(padding.left, y50);
-        ctx.lineTo(width - padding.right, y50);
-        ctx.stroke();
-        
-        ctx.beginPath();
-        ctx.moveTo(padding.left, y80);
-        ctx.lineTo(width - padding.right, y80);
-        ctx.stroke();
-        
+        ctx.strokeStyle = '#aaa';
+        [20, 50, 80].forEach(v => {
+            const y = valueToY(v);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(width - padding.right, y);
+            ctx.stroke();
+        });
         ctx.setLineDash([]);
-        
-        // Y轴标签
-        ctx.fillStyle = isDark ? '#6c7a8e' : '#8a92a6';
-        ctx.font = '8px monospace';
-        ctx.fillText('100', 3, valueToY(100) + 3);
-        ctx.fillText('80', 3, y80 + 3);
-        ctx.fillText('50', 3, y50 + 3);
-        ctx.fillText('20', 3, y20 + 3);
-        ctx.fillText('0', 3, valueToY(0) + 3);
     }
     
-    // ========== 游戏状态 ==========
-    let klineData = generateKLineData();
-    let currentIndex = 0;
-    let position = null;
-    let totalProfit = 0;
-    let tradeCount = 0;
-    let currentCapital = INITIAL_CAPITAL;
-    let isRunning = false;
-    let intervalId = null;
-    let currentSpeed = 1.0;
-    
-    let macdData = null;
-    let kdjData = null;
-    
-    function updateIndicators() {
-        macdData = calculateMACD(klineData);
-        kdjData = calculateKDJ(klineData);
-    }
-    
-    const canvas = document.getElementById('kCanvas');
-    const macdCanvas = document.getElementById('macdCanvas');
-    const kdjCanvas = document.getElementById('kdjCanvas');
-    let ctx = canvas.getContext('2d');
-    
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.textContent = msg;
-        toast.style.opacity = '1';
-        setTimeout(() => {
-            toast.style.opacity = '0';
-        }, 1500);
-    }
-    
-    function calculateShares(capital, price) {
-        return Math.floor(capital / price);
-    }
-    
-    function calculateCurrentProfitAmount() {
-        if (!position) return 0;
-        const currentPrice = klineData[currentIndex].close;
-        if (position.type === 'long') {
-            return (currentPrice - position.entryPrice) * position.shares;
-        } else {
-            return (position.entryPrice - currentPrice) * position.shares;
-        }
-    }
-    
-    function closePosition(showMessage = true) {
-        if (!position) {
-            if (showMessage) showToast('⚠️ 当前无持仓');
-            return null;
-        }
-        
-        const currentPrice = klineData[currentIndex].close;
-        let profit = 0;
-        
-        if (position.type === 'long') {
-            profit = (currentPrice - position.entryPrice) * position.shares;
-        } else {
-            profit = (position.entryPrice - currentPrice) * position.shares;
-        }
-        
-        totalProfit += profit;
-        currentCapital = INITIAL_CAPITAL + totalProfit;
-        tradeCount++;
-        
-        const result = { type: position.type, profit: profit };
-        position = null;
-        
-        if (showMessage) {
-            const profitColor = profit >= 0 ? '📈 +' : '📉 ';
-            showToast(`${result.type === 'long' ? '做多' : '做空'} 平仓 ${profitColor}${profit.toFixed(2)}`);
-        }
-        
-        updateUI();
-        drawKLine();
-        drawIndicators();
-        return result;
-    }
-    
-    function openPosition(type) {
-        const currentPrice = klineData[currentIndex].close;
-        
-        if (position) {
-            showToast(`⚠️ 请先平仓当前持仓`);
-            return;
-        }
-        
-        const shares = calculateShares(currentCapital, currentPrice);
-        if (shares === 0) {
-            showToast(`⚠️ 资金不足无法开仓`);
-            return;
-        }
-        
-        position = {
-            type: type,
-            entryPrice: currentPrice,
-            entryIndex: currentIndex,
-            shares: shares
-        };
-        
-        showToast(`${type === 'long' ? '📈 做多' : '📉 做空'} @ ${currentPrice.toFixed(2)} (${shares}股)`);
-        updateUI();
-        drawKLine();
-    }
-    
+    // 绘制K线
     function drawKLine() {
-        if (!canvas || !ctx) return;
-        
+        const canvas = document.getElementById('kCanvas');
         const rect = canvas.parentElement.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
         
-        ctx = canvas.getContext('2d');
-        
-        const width = canvas.width;
-        const height = canvas.height;
-        const padding = { left: 35, right: 25, top: 12, bottom: 20 };
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        const width = rect.width, height = rect.height;
+        const padding = { left: 45, right: 35, top: 12, bottom: 20 };
         const chartWidth = width - padding.left - padding.right;
         const chartHeight = height - padding.top - padding.bottom;
+        if (chartWidth <= 0) return;
         
-        if (chartWidth <= 0 || chartHeight <= 0) return;
-        
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        ctx.fillStyle = isDark ? '#0b0e14' : '#ffffff';
+        const isDark = document.body.classList.contains('dark');
+        ctx.fillStyle = isDark ? '#1e1e1e' : 'white';
         ctx.fillRect(0, 0, width, height);
         
         const startIdx = Math.max(0, currentIndex - VISIBLE_COUNT + 1);
-        const endIdx = currentIndex;
-        const visibleData = klineData.slice(startIdx, endIdx + 1);
-        
+        const visibleData = klineData.slice(startIdx, currentIndex + 1);
         if (visibleData.length === 0) return;
         
-        let minPrice = Infinity, maxPrice = -Infinity;
-        visibleData.forEach(k => {
-            minPrice = Math.min(minPrice, k.low);
-            maxPrice = Math.max(maxPrice, k.high);
-        });
+        let minPrice = Math.min(...visibleData.map(k => k.low));
+        let maxPrice = Math.max(...visibleData.map(k => k.high));
         const buffer = (maxPrice - minPrice) * 0.05;
         minPrice -= buffer;
         maxPrice += buffer;
-        const priceRange = maxPrice - minPrice;
-        const priceToY = (price) => padding.top + chartHeight * (1 - (price - minPrice) / priceRange);
+        const priceToY = (price) => padding.top + chartHeight * (1 - (price - minPrice) / (maxPrice - minPrice));
         
-        ctx.strokeStyle = isDark ? '#1e222d' : '#e5e9f0';
+        ctx.strokeStyle = '#ddd';
         ctx.lineWidth = 0.5;
         for (let i = 0; i <= 4; i++) {
             const y = padding.top + (chartHeight / 4) * i;
@@ -1122,15 +801,14 @@
             ctx.stroke();
         }
         
-        ctx.fillStyle = isDark ? '#6c7a8e' : '#8a92a6';
-        ctx.font = '8px monospace';
+        ctx.fillStyle = '#888';
+        ctx.font = '9px monospace';
         for (let i = 0; i <= 4; i++) {
             const price = maxPrice - (maxPrice - minPrice) * (i / 4);
-            const y = padding.top + (chartHeight / 4) * i;
-            ctx.fillText(price.toFixed(1), 3, y + 3);
+            ctx.fillText(price.toFixed(1), 5, padding.top + (chartHeight / 4) * i + 4);
         }
         
-        const candleWidth = Math.max(3, Math.min(4, chartWidth / visibleData.length * 0.7));
+        const candleWidth = Math.max(3, Math.min(5, chartWidth / visibleData.length * 0.7));
         const spacing = chartWidth / visibleData.length;
         
         visibleData.forEach((k, idx) => {
@@ -1141,20 +819,30 @@
             const lowY = priceToY(k.low);
             const isUp = k.close >= k.open;
             
-            ctx.fillStyle = isUp ? '#ff4d4d' : '#4cff4c';
-            ctx.strokeStyle = isUp ? '#ff4d4d' : '#4cff4c';
-            
             ctx.beginPath();
             ctx.moveTo(x, highY);
             ctx.lineTo(x, lowY);
+            ctx.strokeStyle = isUp ? '#ff6b6b' : '#4ecdc4';
             ctx.stroke();
             
             const rectY = isUp ? closeY : openY;
             const rectHeight = Math.abs(closeY - openY);
-            if (rectHeight > 1.5) {
-                ctx.fillRect(x - candleWidth / 2, rectY, candleWidth, rectHeight);
+            if (rectHeight > 2) {
+                if (isUp) {
+                    ctx.strokeStyle = '#ff6b6b';
+                    ctx.strokeRect(x - candleWidth / 2, rectY, candleWidth, rectHeight);
+                } else {
+                    ctx.fillStyle = '#4ecdc4';
+                    ctx.fillRect(x - candleWidth / 2, rectY, candleWidth, rectHeight);
+                }
             } else {
-                ctx.fillRect(x - candleWidth / 2, rectY - 1.5, candleWidth, 3);
+                if (isUp) {
+                    ctx.strokeStyle = '#ff6b6b';
+                    ctx.strokeRect(x - candleWidth / 2, rectY - 1, candleWidth, 2);
+                } else {
+                    ctx.fillStyle = '#4ecdc4';
+                    ctx.fillRect(x - candleWidth / 2, rectY - 1, candleWidth, 2);
+                }
             }
         });
         
@@ -1163,68 +851,121 @@
         ctx.beginPath();
         ctx.moveTo(padding.left, currentY);
         ctx.lineTo(width - padding.right, currentY);
-        ctx.strokeStyle = '#ffaa44';
-        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#ff6b6b';
+        ctx.lineWidth = 1;
         ctx.stroke();
-        
-        ctx.fillStyle = '#ffaa44';
-        ctx.font = 'bold 8px monospace';
-        ctx.fillText(`${currentPrice.toFixed(2)}`, width - padding.right + 3, currentY - 3);
+        ctx.fillStyle = '#ff6b6b';
+        ctx.fillText(`${currentPrice.toFixed(2)}`, width - padding.right + 5, currentY - 3);
     }
     
     function drawIndicators() {
-        if (macdData) drawMACD(macdCanvas, macdData, currentIndex);
-        if (kdjData) drawKDJ(kdjCanvas, kdjData, currentIndex);
+        if (indicatorsVisible && macdData && kdjData) {
+            drawMACD(document.getElementById('macdCanvas'), macdData, currentIndex);
+            drawKDJ(document.getElementById('kdjCanvas'), kdjData, currentIndex);
+        }
+    }
+    
+    // 游戏状态
+    let klineData = generateKLineData();
+    let currentIndex = 0;
+    let position = null;
+    let totalProfit = 0;
+    let tradeCount = 0;
+    let currentCapital = INITIAL_CAPITAL;
+    let isRunning = false;
+    let intervalId = null;
+    let currentSpeed = 1.0;
+    let macdData = null;
+    let kdjData = null;
+    
+    function updateIndicators() {
+        macdData = calculateMACD(klineData);
+        kdjData = calculateKDJ(klineData);
+    }
+    
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.opacity = '1';
+        setTimeout(() => toast.style.opacity = '0', 1500);
+    }
+    
+    function calculateCurrentProfit() {
+        if (!position) return 0;
+        const price = klineData[currentIndex].close;
+        if (position.type === 'long') return (price - position.entryPrice) * position.shares;
+        return (position.entryPrice - price) * position.shares;
+    }
+    
+    function closePosition(showMsg = true) {
+        if (!position) {
+            if (showMsg) showToast('⚠️ 当前无持仓');
+            return;
+        }
+        const profit = calculateCurrentProfit();
+        totalProfit += profit;
+        currentCapital = INITIAL_CAPITAL + totalProfit;
+        tradeCount++;
+        if (showMsg) showToast(`${position.type === 'long' ? '做多' : '做空'} 平仓 ${profit >= 0 ? '+' : ''}${profit.toFixed(2)}`);
+        position = null;
+        updateUI();
+        drawKLine();
+        drawIndicators();
+    }
+    
+    function openPosition(type) {
+        if (position) {
+            showToast('请先平仓');
+            return;
+        }
+        const price = klineData[currentIndex].close;
+        const shares = Math.floor(currentCapital / price);
+        if (shares === 0) {
+            showToast('资金不足');
+            return;
+        }
+        position = { type, entryPrice: price, shares };
+        showToast(`${type === 'long' ? '做多' : '做空'} @ ${price.toFixed(2)} (${shares}股)`);
+        updateUI();
+        drawKLine();
     }
     
     function updateUI() {
-        const currentPrice = klineData[currentIndex].close;
-        const prevPrice = currentIndex > 0 ? klineData[currentIndex - 1].close : currentPrice;
-        const change = currentPrice - prevPrice;
+        const price = klineData[currentIndex].close;
+        const prev = currentIndex > 0 ? klineData[currentIndex - 1].close : price;
+        const change = price - prev;
+        document.getElementById('headerPrice').innerHTML = price.toFixed(2);
+        const changeEl = document.getElementById('headerChange');
+        changeEl.innerHTML = `${change >= 0 ? '+' : ''}${change.toFixed(2)}`;
+        changeEl.style.color = change >= 0 ? '#ff6b6b' : '#4ecdc4';
         
-        document.getElementById('headerPrice').innerHTML = `${currentPrice.toFixed(2)}`;
-        const headerChange = document.getElementById('headerChange');
-        headerChange.innerHTML = `${change >= 0 ? '+' : ''}${change.toFixed(2)}`;
-        headerChange.style.color = change >= 0 ? '#ff4d4d' : '#4cff4c';
-        
-        const statusDiv = document.getElementById('positionStatus');
+        const statusEl = document.getElementById('positionStatus');
         if (position) {
-            const statusText = position.type === 'long' ? `做多` : `做空`;
-            const statusClass = position.type === 'long' ? 'position-long' : 'position-short';
-            statusDiv.innerHTML = `<span class="position-badge ${statusClass}">${statusText}</span>`;
+            statusEl.innerHTML = `<span class="position-badge position-${position.type}">${position.type === 'long' ? '做多' : '做空'}</span>`;
         } else {
-            statusDiv.innerHTML = `<span class="position-badge position-empty">空仓</span>`;
+            statusEl.innerHTML = '<span class="position-badge position-empty">空仓</span>';
         }
         
-        const currentPL = calculateCurrentProfitAmount();
-        const plDiv = document.getElementById('currentPL');
-        plDiv.innerHTML = `<span class="${currentPL >= 0 ? 'profit-positive' : 'profit-negative'}">${currentPL >= 0 ? '+' : ''}${currentPL.toFixed(2)}</span>`;
-        
-        const totalDiv = document.getElementById('totalPL');
-        totalDiv.innerHTML = `<span class="${totalProfit >= 0 ? 'profit-positive' : 'profit-negative'}">${totalProfit >= 0 ? '+' : ''}${totalProfit.toFixed(2)}</span>`;
-        
+        const pl = calculateCurrentProfit();
+        document.getElementById('currentPL').innerHTML = `<span class="${pl >= 0 ? 'profit-positive' : 'profit-negative'}">${pl >= 0 ? '+' : ''}${pl.toFixed(2)}</span>`;
+        document.getElementById('totalPL').innerHTML = `<span class="${totalProfit >= 0 ? 'profit-positive' : 'profit-negative'}">${totalProfit >= 0 ? '+' : ''}${totalProfit.toFixed(2)}</span>`;
         document.getElementById('tradeCount').innerText = tradeCount;
-        document.getElementById('initialCapital').innerHTML = INITIAL_CAPITAL.toLocaleString();
         document.getElementById('currentCapital').innerHTML = currentCapital.toLocaleString();
     }
     
     function advanceToNextKLine() {
         if (currentIndex >= klineData.length - 1) {
-            if (isRunning) {
-                pauseGame();
-                showToast('🎉 通关完成！');
-            }
+            if (isRunning) pauseGame();
+            showToast('通关完成！');
             return;
         }
-        
         currentIndex++;
         drawKLine();
         drawIndicators();
         updateUI();
-        
         if (currentIndex >= klineData.length - 1) {
             pauseGame();
-            showToast('📊 训练完成！');
+            showToast('训练完成！');
         }
     }
     
@@ -1233,32 +974,22 @@
         document.getElementById('speedValue').innerText = `${speed.toFixed(1)}x`;
         document.getElementById('speedBadge').innerHTML = `⚡ ${speed.toFixed(1)}x`;
         document.getElementById('speedSlider').value = speed;
-        
         if (isRunning) {
             if (intervalId) clearInterval(intervalId);
-            const intervalMs = 1000 / speed;
-            intervalId = setInterval(() => {
-                if (isRunning) advanceToNextKLine();
-            }, intervalMs);
+            intervalId = setInterval(() => { if (isRunning) advanceToNextKLine(); }, 1000 / speed);
         }
     }
     
     function startGame() {
         if (intervalId) clearInterval(intervalId);
         isRunning = true;
-        const intervalMs = 1000 / currentSpeed;
-        intervalId = setInterval(() => {
-            if (isRunning) advanceToNextKLine();
-        }, intervalMs);
+        intervalId = setInterval(() => { if (isRunning) advanceToNextKLine(); }, 1000 / currentSpeed);
         document.getElementById('pauseBtn').innerText = '⏸️ 暂停';
     }
     
     function pauseGame() {
         isRunning = false;
-        if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
-        }
+        if (intervalId) { clearInterval(intervalId); intervalId = null; }
         document.getElementById('pauseBtn').innerText = '▶️ 开始';
     }
     
@@ -1270,24 +1001,35 @@
         totalProfit = 0;
         tradeCount = 0;
         currentCapital = INITIAL_CAPITAL;
-        
         updateIndicators();
         drawKLine();
         drawIndicators();
         updateUI();
-        
         if (isRunning) startGame();
-        showToast('🔄 重置完成');
+        showToast('重置完成');
     }
     
     function toggleTheme() {
-        const body = document.body;
-        const currentTheme = body.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        body.setAttribute('data-theme', newTheme);
-        document.getElementById('themeSwitch').textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        document.body.classList.toggle('dark');
         drawKLine();
         drawIndicators();
+    }
+    
+    function toggleIndicators() {
+        indicatorsVisible = !indicatorsVisible;
+        const area = document.getElementById('indicatorsArea');
+        const chartArea = document.getElementById('chartArea');
+        const btn = document.getElementById('indicatorToggleBtn');
+        if (indicatorsVisible) {
+            area.classList.remove('hidden');
+            chartArea.classList.remove('expanded');
+            btn.innerHTML = '📊 隐藏指标';
+        } else {
+            area.classList.add('hidden');
+            chartArea.classList.add('expanded');
+            btn.innerHTML = '📊 显示指标';
+        }
+        setTimeout(() => { drawKLine(); drawIndicators(); }, 100);
     }
     
     function handleResize() {
@@ -1296,18 +1038,16 @@
     }
     
     function bindEvents() {
-        document.getElementById('longBtn').addEventListener('click', () => openPosition('long'));
-        document.getElementById('shortBtn').addEventListener('click', () => openPosition('short'));
-        document.getElementById('closeBtn').addEventListener('click', () => closePosition(true));
-        document.getElementById('resetBtn').addEventListener('click', resetGame);
-        document.getElementById('pauseBtn').addEventListener('click', () => isRunning ? pauseGame() : startGame());
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            if (!isRunning) advanceToNextKLine();
-            else showToast('请先暂停');
-        });
-        document.getElementById('themeSwitch').addEventListener('click', toggleTheme);
-        document.getElementById('speedSlider').addEventListener('input', (e) => setSpeed(parseFloat(e.target.value)));
-        window.addEventListener('resize', handleResize);
+        document.getElementById('longBtn').onclick = () => openPosition('long');
+        document.getElementById('shortBtn').onclick = () => openPosition('short');
+        document.getElementById('closeBtn').onclick = () => closePosition(true);
+        document.getElementById('resetBtn').onclick = resetGame;
+        document.getElementById('pauseBtn').onclick = () => isRunning ? pauseGame() : startGame();
+        document.getElementById('nextBtn').onclick = () => isRunning ? showToast('请先暂停') : advanceToNextKLine();
+        document.getElementById('themeSwitch').onclick = toggleTheme;
+        document.getElementById('indicatorToggleBtn').onclick = toggleIndicators;
+        document.getElementById('speedSlider').oninput = (e) => setSpeed(parseFloat(e.target.value));
+        window.onresize = handleResize;
     }
     
     function init() {
@@ -1319,8 +1059,6 @@
         setSpeed(1.0);
         isRunning = false;
         document.getElementById('pauseBtn').innerText = '▶️ 开始';
-        document.body.setAttribute('data-theme', 'light');
-        document.getElementById('themeSwitch').textContent = '🌙';
     }
     
     init();
