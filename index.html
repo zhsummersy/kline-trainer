@@ -1040,11 +1040,11 @@
         if (indicatorsVisible) {
             area.classList.remove('hidden');
             chartArea.classList.remove('expanded');
-            btn.innerHTML = '📊 隐藏指标';
+            btn.innerHTML = '隐藏';
         } else {
             area.classList.add('hidden');
             chartArea.classList.add('expanded');
-            btn.innerHTML = '📊 显示指标';
+            btn.innerHTML = '显示';
         }
         setTimeout(() => { drawKLine(); drawIndicators(); }, 100);
     }
